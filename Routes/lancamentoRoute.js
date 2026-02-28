@@ -9,5 +9,11 @@ let auth = new Autenticar()
 router.post('/', auth.validar, (req,res) =>{
     ctrl.cadastrarLancamento(req,res);
 });
+router.get('/:id', auth.validar,(req,res) =>{
+    ctrl.listarLancamentoPorUsuario(req,res);
+});
+router.delete('/:id/:usuario', auth.validar, (req,res) =>{
+    ctrl.excluirLancamentoPorUsuario(req,res);
+})
 
 export default router

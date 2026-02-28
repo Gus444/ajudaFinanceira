@@ -7,6 +7,7 @@ export default class LancamentoModel{
     #lanId
     #lanUsuId //id que vem do usuario
     #lanCatId //id que vem da categoria
+    #lanCatNome
     #lanTipo //entrada ou saida
     #lanValor
     #lanData
@@ -21,6 +22,9 @@ export default class LancamentoModel{
 
     get lanCatId() {return this.#lanCatId;}
     set lanCatId(lanCatId) {this.#lanCatId = lanCatId;}
+
+    get lanCatNome() {return this.#lanCatNome;}
+    set lanCatNome(lanCatNome) {this.#lanCatNome = lanCatNome;}
 
     get lanTipo() {return this.#lanTipo;}
     set lanTipo(lanTipo) {this.#lanTipo = lanTipo;}
@@ -37,10 +41,11 @@ export default class LancamentoModel{
     get lanFormPgm() {return this.#lanFormPgm;}
     set lanFormPgm(lanFormPgm) {this.#lanFormPgm = lanFormPgm;}
 
-    constructor(lanId, lanUsuId, lanCatId, lanTipo, lanValor, lanData, lanDescricao, lanFormPgm){
+    constructor(lanId, lanUsuId, lanCatId, lanCatNome,lanTipo, lanValor, lanData, lanDescricao, lanFormPgm){
         this.#lanId = lanId;
         this.#lanUsuId = lanUsuId;
         this.#lanCatId = lanCatId;
+        this.#lanCatNome = lanCatNome;
         this.#lanTipo = lanTipo;
         this.#lanValor = lanValor;
         this.#lanData = lanData;
@@ -53,6 +58,7 @@ export default class LancamentoModel{
             "lanId": this.#lanId,
             "lanUsuId": this.#lanUsuId,
             "lanCatId": this.#lanCatId,
+            "lanCatNome": this.#lanCatNome,
             "lanTipo": this.#lanTipo,
             "lanValor": this.#lanValor,
             "lanData": this.#lanData,
@@ -78,5 +84,57 @@ export default class LancamentoModel{
         let result = await banco.ExecutaComandoLastInserted(sql, valores);
 
         return result;
+    }
+
+    async listarPorUsuario(usuId){
+        let lista = [];
+        let sql = `SELECT 
+                    l.lan_id,
+                    l.lan_usu_id,
+                    l.lan_cat_id,
+                    c.cat_nome,
+                    l.lan_tipo,
+                    l.lan_valor,
+                    l.lan_data,
+                    l.lan_descricao,
+                    l.lan_formpgm
+                FROM tb_lancamento l
+                INNER JOIN tb_categoria c 
+                    ON l.lan_cat_id = c.cat_id
+                WHERE l.lan_usu_id = ?
+                ORDER BY l.lan_data DESC`
+
+        let valores = [usuId];
+
+        let rows = await banco.ExecutaComando(sql,valores)
+
+        for(let i = 0; i< rows.length; i++ ){
+            let row = rows[i]
+            lista.push(new LancamentoModel(row["lan_id"], row["lan_usu_id"],row["lan_cat_id"],row["cat_nome"],row["lan_tipo"], row["lan_valor"], row["lan_data"], row["lan_descricao"], row["lan_formpgm"]));
+        }
+
+        return lista;
+    }
+
+    async verificaLancamento(id, usuario){
+        let sql = "select * from tb_lancamento where lan_id = ? and lan_usu_id = ?";
+        let valores = [id, usuario];
+
+        let row = await banco.ExecutaComando(sql,valores);
+
+        if(row.length > 0){
+            return new LancamentoModel(row["lan_id"], row["lan_usu_id"],row["lan_cat_id"],row["cat_nome"],row["lan_tipo"], row["lan_valor"], row["lan_data"], row["lan_descricao"], row["lan_formpgm"])
+        }
+
+        return null;
+    };
+
+    async deletarLancamento(id, usuario){
+        let sql = "delete from tb_lancamento where lan_id = ? and lan_usu_id = ?";
+        let valores = [id, usuario];
+
+        let result = await banco.ExecutaComandoNonQuery(sql,valores);
+
+        return result
     }
 }

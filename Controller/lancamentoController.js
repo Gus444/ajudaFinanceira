@@ -26,7 +26,7 @@ export default class LancamentoController{
 
                     let result = await lancamento.gravarLancamento();
                     if(result){
-                        res.status(200).json({msg: "Lançamento incluido"});
+                        res.status(201).json({msg: "Lançamento incluido"});
                     }
                     else{
                         res.status(500).json({msg: "Erro interno de servidor"})
@@ -44,6 +44,40 @@ export default class LancamentoController{
 
         } catch (error) {
             res.status(500).json({msg: "Erro interno de servidor", detalhe: error.message})
+        }
+    }
+
+    async listarLancamentoPorUsuario(req,res){
+
+        try {
+            let {id} = req.params;
+            let lancamento = new LancamentoModel();
+            let listaLancamento = await lancamento.listarPorUsuario(id);
+
+            res.status(200).json(listaLancamento)
+        } catch (error) {
+            res.status(500).json({msg: "Erro de servidor", detalhes: error.message})
+        }
+
+    }
+
+    async excluirLancamentoPorUsuario(req,res){
+        try {
+            let {id, usuario} = req.params;
+            let lancamento = new LancamentoModel();
+            let result = await lancamento.verificaLancamento(id, usuario)
+            if(!result){
+                return res.status(404).json({msg: "Lançamento não encontrado"});
+            }
+            else{
+                result = await lancamento.deletarLancamento(id, usuario);
+
+                if(result){
+                    res.status(200).json({msg: "Lançamento excluido com sucesso"});
+                }
+            }
+        } catch (error) {
+            return res.status(500).json({msg: "Erro interno de servidor"});
         }
     }
 

@@ -4,6 +4,7 @@ import { useContext, useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import UserContext from "../context/userContext.js";
 import Link from 'next/link';
+import NaoAutorizado from '../components/naoAutorizado.js';
 
 export default function LayoutAdmin({ children }) {
   const router = useRouter();
@@ -21,17 +22,31 @@ export default function LayoutAdmin({ children }) {
     }
   }, [setUser]);
 
-  const isAdmin = user && user.usuNivel === 0;
-
   const toggleSidebar = () => {
     setIsMinimized(!isMinimized);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('usuario');
-    setUser(null);
-    router.push('/login');
-  };
+        // Remover usuário e empresa do localStorage
+        fetch('http://localhost:5000/login/logout', {
+            mode: 'cors',
+            credentials: 'include',
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+            },
+        }).then(r => r.json());
+
+        localStorage.removeItem('usuario');
+        // Atualizar o contexto para remover as informações de user e emp
+        setUser(null);
+        // Redirecionar o usuário para a página de login ou outra página pública
+        router.push('/');
+    };
+
+  if (isClient && user == null) {
+        return <NaoAutorizado/>
+  }
 
   return (
     <div className="admin-layout">
@@ -40,9 +55,53 @@ export default function LayoutAdmin({ children }) {
         <div className="sidebar-header">
           {!isMinimized && (
             <div className="logo-section">
-              <Link href="/admin" className="logo-text">
+              <Link href="/admin" className="logo-text text-decoration-none">
                 FinanSystem
               </Link>
+              
+              {/* Dropdown do usuário melhorado */}
+              <div className="dropdown">
+                <button 
+                  className="btn btn-link nav-link dropdown-toggle d-flex align-items-center" 
+                  id="userDropdown" 
+                  type="button"
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false"
+                  style={{ 
+                    background: 'transparent', 
+                    border: 'none',
+                    color: 'white',
+                    padding: '0.5rem 1rem'
+                  }}
+                >
+                  <i className="fa-solid fa-user-circle fa-lg me-2"></i>
+                  <span className="user-name">
+                    {user != null && isClient ? user.usuNome : "Carregando..."}
+                  </span>
+                </button>
+                
+                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li>
+                    <Link href="/admin/perfil" className="dropdown-item">
+                      <i className="fa-solid fa-user me-2"></i>
+                      Meu Perfil
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/admin/configuracoes" className="dropdown-item">
+                      <i className="fa-solid fa-gear me-2"></i>
+                      Configurações
+                    </Link>
+                  </li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li>
+                    <button className="dropdown-item text-danger" onClick={handleLogout}>
+                      <i className="fa-solid fa-sign-out-alt me-2"></i>
+                      Sair
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           )}
           
@@ -54,7 +113,8 @@ export default function LayoutAdmin({ children }) {
         
         
         {/* Navegação */}
-        <nav className="sidebar-nav">
+        <nav className={`sidebarNav ${isMinimized ? 'minimized' : ''}`}>
+           {!isMinimized && (
           <ul>
             <li>
               <Link href="/admin" className="nav-link">
@@ -80,25 +140,18 @@ export default function LayoutAdmin({ children }) {
                 {!isMinimized && <span className="nav-label">Categorias</span>}
               </Link>
             </li>
-            {isAdmin && !isMinimized && (
-              <>
-                <li>
-                  <Link href="/admin/usuarios" className="nav-link">
-                    <span className="nav-icon">👥</span>
-                    <span className="nav-label">Usuários</span>
-                  </Link>
-                </li>
-              </>
-            )}
           </ul>
+           )}
         </nav>
 
         {/* Footer com botão de logout */}
-        <div className="sidebar-footer">
+        <div className={`sidebar-footer ${isMinimized ? 'minimized' : ''}`}>
+          {!isMinimized && (
           <button className="logout-btn" onClick={handleLogout}>
             <span className="logout-icon">🚪</span>
             {!isMinimized && <span>Sair</span>}
           </button>
+          )}
         </div>
       </aside>
 
@@ -112,9 +165,7 @@ export default function LayoutAdmin({ children }) {
               <span className="breadcrumb-separator">/</span>
               <span className="breadcrumb-active">Dashboard</span>
             </nav>
-          </div>
-          
-          
+          </div>          
         </header>
 
         <div className="content-container">

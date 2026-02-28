@@ -26,6 +26,7 @@ export default function categoriaAdmin(){
         })
     }
 
+    let timeoutId
     useEffect(() => {
         carregarCategoria();
 

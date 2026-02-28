@@ -61,36 +61,67 @@ export default function Login() {
 
     return (
         <div className="background">
-            
             <div className="Meucontainer">
-                <div className="img-form">
-                    <img src="/img/primus.png" className="img-format"></img>
-                </div>
+                {/* <div className="img-form">
+                    <img src="" className="img-format" alt="" />
+                </div> */}
 
-                <div ref={msgRef}>
+                <h2 className="form-title">Bem-vindo de volta!</h2>
+                <p className="form-subtitle">Faça login para acessar sua conta</p>
 
-                </div>
+                <div ref={msgRef}></div>
 
-                <div>
+                <form className="form">
+                    <div className="input-group">
+                        <div style={{ position: 'relative', width: '100%' }}>
+                            <i className="fa-solid fa-envelope" style={{
+                                position: 'absolute',
+                                left: '16px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: '#117180',
+                                fontSize: '18px',
+                                zIndex: 1
+                            }}></i>
+                            <input 
+                                ref={email} 
+                                type="email" 
+                                className="input-field" 
+                                placeholder="Digite seu e-mail"
+                                style={{ paddingLeft: '45px' }}
+                            />
+                        </div>
+                    </div>
                     
-                    <form className="form">
-                        
-                        <div className="form-label p-2">
-                            <i className="fa-solid fa-envelope fa-xl" style={{color: "#ffffff"}}></i>
-                            <input ref={email} type="email" className="form-control form-control-lg" style={{fontSize:'1rem', width: '320px'}} placeholder="digite seu email"></input>
+                    <div className="input-group">
+                        <div style={{ position: 'relative', width: '100%' }}>
+                            <i className="fa-solid fa-lock" style={{
+                                position: 'absolute',
+                                left: '16px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: '#117180',
+                                fontSize: '18px',
+                                zIndex: 1
+                            }}></i>
+                            <input 
+                                ref={senha} 
+                                type="password" 
+                                className="input-field" 
+                                placeholder="Digite sua senha"
+                                style={{ paddingLeft: '45px' }}
+                            />
                         </div>
-                        
-                        
-                        <div className="form-label p-2 pb-5">
-                            <i className="fa-solid fa-lock fa-xl" style={{color: "#ffffff"}}></i>
-                            <input ref={senha} type="password" className="form-control form-control-lg" style={{fontSize:'1rem', width: '320px'}} placeholder="digite sua senha"></input>
-                        </div>
+                    </div>
 
-                        <button className="buttonLogin" type="button" onClick={validar}>
-                            <span>LOGIN</span>
-                        </button>
-                    </form>
-                </div>
+                    <button className="buttonLogin" type="button" onClick={validar}>
+                        <span>ENTRAR</span>
+                    </button>
+
+                    <div className="forgot-password">
+                        <a href="/recuperar-senha">Esqueceu sua senha?</a>
+                    </div>
+                </form>
             </div>
         </div>
     )
