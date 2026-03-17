@@ -226,7 +226,7 @@ export default function HomeAdmin() {
     };
 
     // Opções dos gráficos
-    const opcoesGrafico = {
+    let opcoesGrafico = {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -237,7 +237,7 @@ export default function HomeAdmin() {
     };
 
     // Opções específicas para o gráfico de rosca
-    const opcoesGraficoRosca = {
+    let opcoesGraficoRosca = {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -259,7 +259,7 @@ export default function HomeAdmin() {
     };
 
     // Formatar moeda
-    const formatarMoeda = (valor) => {
+    let formatarMoeda = (valor) => {
         return valor.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL'
@@ -267,7 +267,7 @@ export default function HomeAdmin() {
     };
 
     // Nomes dos meses
-    const meses = [
+    let meses = [
         { valor: 1, nome: 'Janeiro' },
         { valor: 2, nome: 'Fevereiro' },
         { valor: 3, nome: 'Março' },

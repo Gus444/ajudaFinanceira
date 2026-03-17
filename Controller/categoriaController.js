@@ -57,4 +57,27 @@ export default class categoriaController {
 
     }
 
+    async excluirCategoria(req,res){
+
+        try {
+            let {catId, usuId} = req.params;
+            let categoria = new CategoriaModel();
+            let result = await categoria.verificaCategoria(catId, usuId);
+            if(!result){
+                return res.status(404).json({msg: 'Categoria nao encontrada'})
+            }
+            else{
+                result = await categoria.deletarCategoria(catId,usuId);
+                
+                if(result){
+                    res.status(200).json({msg: 'Categoria excluida com sucesso'})
+                }
+            }
+
+        } catch (error) {
+            res.status(500).json({msg: 'Erro interno de servidor'})
+        }
+
+    }
+
 }

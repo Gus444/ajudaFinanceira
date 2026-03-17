@@ -100,4 +100,29 @@ export default class CategoriaModel{
 
         return lista;
     }
+
+    async verificaCategoria(catId, usuId){
+
+        let sql = 'select * from tb_categoria where cat_id = ? and cat_usu_id = ?';
+        let valores = [catId, usuId];
+
+        let row = await banco.ExecutaComando(sql,valores);
+
+        if(row.length > 0){
+            return new CategoriaModel(row["cat_id"], row["cat_usu_id"],row["cat_nome"])
+        }
+
+        return null;
+
+    }
+
+    async deletarCategoria(catId, usuId){
+
+        let sql = 'delete from tb_categoria where cat_id = ? and cat_usu_id = ?';
+        let valores = [catId, usuId];
+
+        let result = await banco.ExecutaComandoNonQuery(sql,valores)
+
+        return result;
+    }
 }

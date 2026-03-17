@@ -62,9 +62,6 @@ export default function Login() {
     return (
         <div className="background">
             <div className="Meucontainer">
-                {/* <div className="img-form">
-                    <img src="" className="img-format" alt="" />
-                </div> */}
 
                 <h2 className="form-title">Bem-vindo de volta!</h2>
                 <p className="form-subtitle">Faça login para acessar sua conta</p>
@@ -119,7 +116,10 @@ export default function Login() {
                     </button>
 
                     <div className="forgot-password">
-                        <a href="/recuperar-senha">Esqueceu sua senha?</a>
+                        <a href="/enviarEmail">Esqueceu sua senha?</a>
+                    </div>
+                    <div className="forgot-password">
+                        <a href="/cadastroUsuario">Criar conta</a>
                     </div>
                 </form>
             </div>

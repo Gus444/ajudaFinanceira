@@ -97,4 +97,29 @@ export default class UsuarioModel{
 
         return null;
     }
+
+    async obterPorEmail(email) {
+
+        let sql = "select * from tb_usuario where usu_email = ?";
+
+        let valores = [email];
+
+        let row = await banco.ExecutaComando(sql, valores);
+
+        if(row.length > 0) {
+            return new UsuarioModel(row[0]["usu_id"], row[0]["usu_nome"],row[0]["usu_email"], row[0]["usu_senha"],row[0]["usu_telefone"], row[0]["usu_status"], row[0]["usu_nivel"])
+        }
+
+        return null;
+    }
+
+    async redefinirSenha(usuId, usuSenha){
+        let sql = "update tb_usuario set usu_senha = ? where usu_id = ?";
+
+        let valores = [usuSenha, usuId]
+
+        await banco.ExecutaComandoNonQuery(sql,valores);
+
+        return true;
+    }
 }

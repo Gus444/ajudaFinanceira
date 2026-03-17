@@ -11,7 +11,6 @@ export default function cadastroMovimentacaoAdmin(){
     let timeoutId
     let { user, setUser } = useContext(UserContext);
 
-    // CORREÇÃO: Inicializar como null em vez de string
     let categoria = useRef(null);
     let tipo = useRef(null);
     let valor = useRef(null);
@@ -22,6 +21,8 @@ export default function cadastroMovimentacaoAdmin(){
     let [listaCategoria, setListaCategoria] = useState([]);
     let [selecionarCategoria, setSelecionarCategoria] = useState(null);
     let [categoriaSelecionadaTitulo, setCategoriaSelecionadaTitulo] = useState("");
+
+    console.log()
 
 
     //carregar categorias
@@ -83,7 +84,7 @@ export default function cadastroMovimentacaoAdmin(){
         setShowPopup2(false);
     };
 
-    function gravarEmpresa() {
+    function gravarLancamento() {
 
         let ok = true;
 
@@ -297,7 +298,7 @@ export default function cadastroMovimentacaoAdmin(){
                                     <button 
                                         className="btn btn-primary px-5 py-3 rounded-3 fw-semibold shadow-sm"
                                         style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none' }}
-                                        onClick={gravarEmpresa}
+                                        onClick={gravarLancamento}
                                     >
                                         <i className="fas fa-save me-2"></i>
                                         Salvar

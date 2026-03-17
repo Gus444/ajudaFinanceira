@@ -63,14 +63,14 @@ export default class LancamentoController{
 
     async excluirLancamentoPorUsuario(req,res){
         try {
-            let {id, usuario} = req.params;
+            let {idLancamento, idUsuario} = req.params;
             let lancamento = new LancamentoModel();
-            let result = await lancamento.verificaLancamento(id, usuario)
+            let result = await lancamento.verificaLancamento(idLancamento, idUsuario)
             if(!result){
                 return res.status(404).json({msg: "Lançamento não encontrado"});
             }
             else{
-                result = await lancamento.deletarLancamento(id, usuario);
+                result = await lancamento.deletarLancamento(idLancamento, idUsuario);
 
                 if(result){
                     res.status(200).json({msg: "Lançamento excluido com sucesso"});

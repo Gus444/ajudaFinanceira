@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import UsuarioModel from '../Model/usuarioModel.js';
 
-const jwt_segredo = "qwereermpdbx235lk4n1onsdf"
+const jwt_segredo = process.env.JWT_S3GR3DO;
 
 export default class Autenticar {
 
@@ -52,5 +52,13 @@ export default class Autenticar {
 
     gerarToken(usuario) {
         return jwt.sign(usuario, jwt_segredo, { expiresIn: 60 })
+    }
+
+    gerarTokenRecuperacao(usuario){
+        return jwt.sign({usuId: usuario.usuId}, jwt_segredo, {expiresIn: 900})
+    }
+
+    validarTokenRecuperacao(token){
+        return jwt.verify(token, jwt_segredo);
     }
 }

@@ -1,3 +1,4 @@
+import dotenv from 'dotenv/config';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -12,12 +13,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({origin: "http://localhost:3000", credentials:true}))
+const PORT = process.env.PORT
+
 
 app.use('/login', loginRouter);
 app.use('/categoria', categoriaRouter);
 app.use('/usuario', usuarioRouter);
 app.use('/lancamento', lancacamentoRouter);
 
-app.listen(5000, function(){
-    console.log("backend em execução");
+app.listen(PORT, function(){
+    console.log(`backend em execução na porta ${PORT}`);
 })

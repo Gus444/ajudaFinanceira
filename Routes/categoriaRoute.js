@@ -17,5 +17,8 @@ router.post('/', auth.validar,(req,res) =>{
 router.get('/:id', auth.validar,(req,res) => {
     ctrl.listarCategoriaPorUsuario(req,res);
 })
+router.delete('/:catId/:usuId', auth.validar, (req,res) => {
+    ctrl.excluirCategoria(req,res);
+})
 
 export default router

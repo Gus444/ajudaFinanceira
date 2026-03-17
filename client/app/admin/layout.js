@@ -1,17 +1,33 @@
 'use client';
 
 import { useContext, useState, useEffect } from 'react';
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import UserContext from "../context/userContext.js";
 import Link from 'next/link';
 import NaoAutorizado from '../components/naoAutorizado.js';
+import Loading from '../components/loading.js';
 
 export default function LayoutAdmin({ children }) {
+
   const router = useRouter();
+
+  //config para aparecer o nome das paginas
+  const pathName = usePathname();
+  const parte = pathName.split("/");
+  const paginaBase = parte[2]
+  const nomesPaginas = {
+    dashboard: "Dashboard",
+    lancamentos: "Lançamentos",
+    categorias: "Categorias",
+    movimentacao: "Movimentação"
+  }
+  const titulo = nomesPaginas[paginaBase] || "Dashboard";
+  //////////////////////////////////////////
 
   const { user, setUser } = useContext(UserContext);
   const [isClient, setIsClient] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
@@ -20,6 +36,8 @@ export default function LayoutAdmin({ children }) {
     if (localUser) {
       setUser(JSON.parse(localUser));
     }
+
+    setLoading(false);
   }, [setUser]);
 
   const toggleSidebar = () => {
@@ -44,6 +62,10 @@ export default function LayoutAdmin({ children }) {
         router.push('/');
     };
 
+  if (loading) {
+        return <Loading/>;
+  }
+
   if (isClient && user == null) {
         return <NaoAutorizado/>
   }
@@ -55,8 +77,21 @@ export default function LayoutAdmin({ children }) {
         <div className="sidebar-header">
           {!isMinimized && (
             <div className="logo-section">
-              <Link href="/admin" className="logo-text text-decoration-none">
-                FinanSystem
+              <Link href="/admin" className="logo-wrapper">
+                <div className="logo-icon">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 2L2 9L16 16L30 9L16 2Z" stroke="url(#gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 16L16 23L30 16" stroke="url(#gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 23L16 30L30 23" stroke="url(#gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <defs>
+                      <linearGradient id="gradient" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#667eea"/>
+                        <stop offset="1" stopColor="#764ba2"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                <span className="logo-text-modern">Flux</span>
               </Link>
               
               {/* Dropdown do usuário melhorado */}
@@ -118,25 +153,19 @@ export default function LayoutAdmin({ children }) {
           <ul>
             <li>
               <Link href="/admin" className="nav-link">
-                <span className="nav-icon">📊</span>
+               <i className="fa-solid fa-chart-column"></i>
                 {!isMinimized && <span className="nav-label">Dashboard</span>}
               </Link>
             </li>
             <li>
               <Link href="/admin/movimentacao" className="nav-link">
-                <span className="nav-icon">💰</span>
+                <span className="fa-solid fa-clipboard-list"></span>
                 {!isMinimized && <span className="nav-label">Movimentação</span>}
               </Link>
             </li>
             <li>
-              <Link href="/admin/gastos" className="nav-link">
-                <span className="nav-icon">💳</span>
-                {!isMinimized && <span className="nav-label">Gastos</span>}
-              </Link>
-            </li>
-            <li>
               <Link href="/admin/categorias" className="nav-link">
-                <span className="nav-icon">🐎</span>
+                <span className="fa-regular fa-rectangle-list"></span>
                 {!isMinimized && <span className="nav-label">Categorias</span>}
               </Link>
             </li>
@@ -148,7 +177,7 @@ export default function LayoutAdmin({ children }) {
         <div className={`sidebar-footer ${isMinimized ? 'minimized' : ''}`}>
           {!isMinimized && (
           <button className="logout-btn" onClick={handleLogout}>
-            <span className="logout-icon">🚪</span>
+            <span className="fa-solid fa-right-from-bracket"></span>
             {!isMinimized && <span>Sair</span>}
           </button>
           )}
@@ -159,11 +188,11 @@ export default function LayoutAdmin({ children }) {
       <main className="main-content">
         <header className="content-header">
           <div className="header-left">
-            <h1 className="page-title">Dashboard</h1>
+            <h1 className="page-title">{titulo}</h1>
             <nav className="breadcrumb">
               <span>Admin</span>
               <span className="breadcrumb-separator">/</span>
-              <span className="breadcrumb-active">Dashboard</span>
+              <span className="breadcrumb-active">{titulo}</span>
             </nav>
           </div>          
         </header>

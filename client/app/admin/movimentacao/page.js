@@ -57,12 +57,11 @@ export default function lancamentoAdmin(){
         })
     }
 
-    function excluirLancamento(id){
+    function excluirLancamento(idLancamento){
 
-        //incluir aqui delecao apenas quando usuario estiver logado
         //colocar um confirm pra o usuario ter certeza
         
-        fetch(`http://localhost:5000/lancamento/${id}/${user.usuId}`, {
+        fetch(`http://localhost:5000/lancamento/${idLancamento}/${user.usuId}`, {
             mode: 'cors',
             credentials: 'include',
             method: "DELETE",
@@ -96,12 +95,22 @@ export default function lancamentoAdmin(){
 
         <div>
             <h1>Ultimos lançamentos</h1>
-            <button>
-                
-            </button>
+
+           <div className="d-flex justify-content-end">
+                <a className="text-decoration-none text-white" href="/admin/movimentacao/cadastro">
+                    <button className="btn btn-primary">Cadastrar</button>
+                </a>   
+            </div> 
+            
 
             <div>
-                    <MontaTabelaTD lista={listaLancamento} exclusao={excluirLancamento} cabecalhos={["Titulo", "Categoria", 'Tipo', 'Valor', 'Data']} propriedades={['lanId', 'lanCatNome', 'lanTipo', 'lanValor', 'lanData']} ></MontaTabelaTD>
+                    <MontaTabelaTD 
+                        lista={listaLancamento} 
+                        exclusao={excluirLancamento} 
+                        cabecalhos={["Categoria", 'Tipo', 'Valor', 'Data']} 
+                        idPropriedade="lanId" 
+                        propriedades={['lanCatNome', 'lanTipo', 'lanValor', 'lanData']} >
+                    </MontaTabelaTD>
             </div>
         </div>
     )

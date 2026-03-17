@@ -5,6 +5,7 @@ export default function MontaTabelaTD(props) {
     // Verifica se os cabeçalhos e propriedades foram passados
     let cabecalho = props.cabecalhos || [];
     let propriedades = props.propriedades || [];
+    let idPropriedade = props.idPropriedade || propriedades[0]; // pegar id que esta cadastrado
 
     // Se os cabeçalhos e propriedades não foram passados, usa as propriedades do primeiro item da lista
     if (props.lista.length > 0 && cabecalho.length === 0) {
@@ -111,8 +112,8 @@ export default function MontaTabelaTD(props) {
                                                         <td key={colIndex} className="px-3 py-3">
                                                             <div className="d-flex gap-2">
                                                                 <button 
-                                                                    onClick={() => props.alteracao(value[propriedades[0]])} 
-                                                                    title="ALTERAR"
+                                                                    onClick={() => props.alteracao(value[idPropriedade])} 
+                                                                    title="Alterar"
                                                                     className="btn btn-sm btn-outline-primary border-0 rounded-3 px-3"
                                                                     style={{ 
                                                                         background: 'rgba(59, 130, 246, 0.1)',
@@ -132,8 +133,8 @@ export default function MontaTabelaTD(props) {
                                                                     Editar
                                                                 </button>
                                                                 <button 
-                                                                    onClick={() => props.exclusao(value[propriedades[0]])} 
-                                                                    title="EXCLUIR"
+                                                                    onClick={() => props.exclusao(value[idPropriedade])} 
+                                                                    title="Excluir"
                                                                     className="btn btn-sm btn-outline-danger border-0 rounded-3 px-3"
                                                                     style={{ 
                                                                         background: 'rgba(239, 68, 68, 0.1)',
