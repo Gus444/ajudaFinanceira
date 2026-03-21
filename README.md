@@ -14,10 +14,10 @@ Exclusão de lançamentos
 Validação de dados no frontend e backend
 
 🛠️ Tecnologias utilizadas
-Frontend
+|Frontend|
 Next.js
 React
-Backend
+|Backend|
 Node.js
 Express
 JWT (autenticação)
