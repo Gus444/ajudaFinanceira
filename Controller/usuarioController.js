@@ -7,20 +7,30 @@ export default class UsuarioController{
         try {
             if(req.body){
                 let {usuNome, usuEmail, usuSenha} = req.body;
-                if(usuNome != "" && usuEmail != "", usuSenha != ""){
-                    let usuario = new UsuarioModel();
-                    usuario.usuId = 0;
-                    usuario.usuNome = usuNome;
-                    usuario.usuEmail = usuEmail;
-                    usuario.usuSenha = usuSenha;
+                if(usuNome != "" && usuEmail != "" && usuSenha != ""){
 
-                    let result = await usuario.gravarUsuario();
+                    let verificaEmail = new UsuarioModel()
+                    let email = await verificaEmail.obterPorEmail(usuEmail);
 
-                    if(result){
-                        res.status(200).json({msg: "Usuario cadastrado com sucesso!"});
+                    if(email == null){
+
+                        let usuario = new UsuarioModel();
+                        usuario.usuId = 0;
+                        usuario.usuNome = usuNome;
+                        usuario.usuEmail = usuEmail;
+                        usuario.usuSenha = usuSenha;
+
+                        let result = await usuario.gravarUsuario();
+
+                        if(result){
+                            res.status(200).json({msg: "Usuario cadastrado com sucesso!"});
+                        }
+                        else{
+                            res.status(500).json({msg: "Erro interno de servidor"});
+                        }
                     }
                     else{
-                        res.status(500).json({msg: "Erro interno de servidor"});
+                        res.status(400).json({msg: "Email Já cadastrado"})
                     }
                 }
                 else{

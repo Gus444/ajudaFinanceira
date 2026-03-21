@@ -28,6 +28,9 @@ export default function LayoutAdmin({ children }) {
   const [isClient, setIsClient] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [loading, setLoading] = useState(true);
+  
+  // 👇 NOVO ESTADO PARA O MENU MOBILE
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -72,8 +75,20 @@ export default function LayoutAdmin({ children }) {
 
   return (
     <div className="admin-layout">
-      {/* Sidebar */}
-      <aside className={`sidebar ${isMinimized ? 'minimized' : ''}`}>
+      {/* 👇 HEADER MOBILE - SÓ APARECE EM CELULAR */}
+      <div className="mobile-header d-md-none">
+        <button className="menu-toggle" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <i className="fas fa-bars"></i>
+        </button>
+        <div className="mobile-logo">Flux</div>
+        <div style={{ width: 40 }}></div>
+      </div>
+
+      {/* 👇 OVERLAY PARA FECHAR MENU AO CLICAR FORA */}
+      <div className={`sidebar-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
+
+      {/* Sidebar - ADICIONEI A CLASSE 'open' PARA MOBILE */}
+      <aside className={`sidebar ${isMinimized ? 'minimized' : ''} ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           {!isMinimized && (
             <div className="logo-section">

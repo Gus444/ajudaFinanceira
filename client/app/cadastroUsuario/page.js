@@ -53,7 +53,7 @@ export default function PaginacadastrarUsuario(){
                 }
                 else{
                     setMsgClass("msgError")
-                    setMsg(data.msg)
+                    setMsg(resposta.msg)
                 }
             })
         }

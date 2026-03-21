@@ -1,8 +1,11 @@
 import { UserProvider } from './context/userContext'
 
 export const metadata = {
-  title: 'FinanSystem',
+  title: 'Flux',
   description: 'Sistema de gestão financeira',
+  icons: {
+    icon: 'favicon.png',
+  },
 }
 
 export default function RootLayout({ children }) {
