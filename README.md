@@ -22,6 +22,7 @@ Node.js
 Express
 JWT (autenticação)
 MySQL
+.Env (Variaveis de ambiente)
 
 🌐 Infraestrutura
 Sistema hospedado em servidor Linux próprio
