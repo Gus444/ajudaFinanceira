@@ -4,13 +4,13 @@ Sistema web de gestão financeira pessoal, desenvolvido para controle de receita
 
 🔗 Acesse o sistema: https://fluxfinan.com.br/
 
-🚀 Funcionalidades
-Cadastro de usuários
-Autenticação com JWT
-Cadastro de receitas e despesas
-Gerenciamento de categorias personalizadas
-Listagem e controle financeiro mensal
-Exclusão de lançamentos
+🚀 Funcionalidades|
+Cadastro de usuários,
+Autenticação com JWT,
+Cadastro de receitas e despesas,
+Gerenciamento de categorias personalizadas,
+Listagem e controle financeiro mensal,
+Exclusão de lançamentos,
 Validação de dados no frontend e backend
 
 🛠️ Tecnologias utilizadas
@@ -32,8 +32,8 @@ Utilização de Cloudflare para segurança e distribuição
 
 Este projeto foi desenvolvido com o objetivo de praticar e consolidar conhecimentos em desenvolvimento fullstack, incluindo:
 
-Criação de APIs REST
-Autenticação de usuários
-Integração frontend/backend
-Manipulação de banco de dados
-Deploy e configuração de servidor
+Criação de APIs REST,
+Autenticação de usuários,
+Integração frontend/backend,
+Manipulação de banco de dados,
+Deploy e configuração de servidor,
