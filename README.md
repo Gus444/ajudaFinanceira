@@ -22,6 +22,7 @@ Node.js,
 Express,
 JWT (autenticação),
 MySQL,
+bcrypt (criptografar senha),
 .Env (Variaveis de ambiente)
 
 🌐 Infraestrutura |
