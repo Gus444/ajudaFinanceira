@@ -75,7 +75,7 @@ export default function categoriaAdmin(){
         });
     }
 
-    function excluirCategoria(catId){
+    function excluirCategoria(catId) {
         if (!confirm("Tem certeza que deseja excluir esta categoria?")) {
             return;
         }
@@ -85,16 +85,22 @@ export default function categoriaAdmin(){
             credentials: 'include',
             method: 'DELETE',
         })
-        .then(r => r.json())
-        .then(r => {
-            if (r.msg) {
-                // Mostrar mensagem de sucesso/erro
-                if (msgRef.current) {
-                    msgRef.current.className = r.erro ? "msgError" : "msgSucess";
-                    msgRef.current.innerHTML = r.msg;
+        .then(async (response) => {
+            const data = await response.json();
+
+            if (msgRef.current) {
+                if (response.status !== 200) {
+                    msgRef.current.className = "msgError";
+                } else {
+                    msgRef.current.className = "msgSucess";
                 }
+
+                msgRef.current.innerHTML = data.msg;
             }
-            carregarCategoria();
+
+            if (response.status === 200) {
+                carregarCategoria();
+            }
         })
         .catch(error => {
             console.error("Erro ao excluir:", error);

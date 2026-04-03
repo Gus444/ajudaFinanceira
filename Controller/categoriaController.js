@@ -67,10 +67,16 @@ export default class categoriaController {
                 return res.status(404).json({msg: 'Categoria nao encontrada'})
             }
             else{
-                result = await categoria.deletarCategoria(catId,usuId);
+                result = await categoria.verificaCatAtiva(catId,usuId);
+                if(result.length === 0){
+                    result = await categoria.deletarCategoria(catId,usuId);
                 
-                if(result){
-                    res.status(200).json({msg: 'Categoria excluida com sucesso'})
+                    if(result){
+                        res.status(200).json({msg: 'Categoria excluida com sucesso'})
+                    }
+                }
+                else{
+                    res.status(400).json({msg: 'Essa categoria esta em uso'})
                 }
             }
 

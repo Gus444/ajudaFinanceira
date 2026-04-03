@@ -125,4 +125,14 @@ export default class CategoriaModel{
 
         return result;
     }
+
+    async verificaCatAtiva(catId, usuId){
+        let sql = 'select * from tb_lancamento where lan_cat_id = ? and lan_usu_id = ?';
+
+        let valores = [catId, usuId];
+
+        let result = await banco.ExecutaComando(sql,valores);
+
+        return result;
+    }
 }
